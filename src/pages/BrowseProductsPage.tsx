@@ -5,6 +5,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import QuantitySelector from "../components/QuantitySelector";
 import { Category, Product } from "../entities";
+import { undefined } from "zod";
 
 function BrowseProducts() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -50,7 +51,12 @@ function BrowseProducts() {
   if (errorProducts) return <div>Error: {errorProducts}</div>;
 
   const renderCategories = () => {
-    if (isCategoriesLoading) return <Skeleton />;
+    if (isCategoriesLoading)
+      return (
+        <div role="progressbar" aria-label="Loading categories">
+          <Skeleton />
+        </div>
+      );
     if (errorCategories) return <div>Error: {errorCategories}</div>;
     return (
       <Select.Root
@@ -92,7 +98,11 @@ function BrowseProducts() {
             <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
-        <Table.Body>
+        <Table.Body
+          //@ts-ignore
+          role={isProductsLoading ? "progressbar" : undefined}
+          aria-label={isProductsLoading ? "Loading products" : undefined}
+        >
           {isProductsLoading &&
             skeletons.map((skeleton) => (
               <Table.Row key={skeleton}>
