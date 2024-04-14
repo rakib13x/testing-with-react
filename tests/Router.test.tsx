@@ -31,4 +31,8 @@ describe("Router", () => {
     navigateTo("/invalid-route");
     expect(screen.getByText(/not found/i)).toBeInTheDocument();
   });
+  it("should render the admin home page for /admin", () => {
+    navigateTo("/invalid-route");
+    expect(screen.getByRole("heading", { name: /admin/i })).toBeInTheDocument();
+  });
 });
